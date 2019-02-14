@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         _previousAirBubbleScale = _initAirBubbleScale;
         
         // Sets the rotation to point up at start
-        transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+        //transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
 
         _init_air = Air;
 
@@ -69,11 +69,11 @@ public class PlayerController : MonoBehaviour
         float verticalMovementAxis = Input.GetAxis("Vertical");
         
         
-        Vector2 velocity = new Vector2(horizontalMovementAxis * Speed, verticalMovementAxis * Speed);
+        Vector2 velocity = new Vector2(verticalMovementAxis * Speed, horizontalMovementAxis * Speed);
         _rigidbody2D.velocity = velocity;
         
         if (velocity != Vector2.zero) {
-            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+            float angle = -Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
