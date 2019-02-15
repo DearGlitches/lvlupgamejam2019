@@ -74,8 +74,6 @@ public class PlayerController : MonoBehaviour
         //transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
 
         _init_air = Air;
-
-        Air = 1;
         
         // Sets gravity to zero so the rigidbody isn't pulled down
         Physics2D.gravity = Vector2.zero;
@@ -107,21 +105,22 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.identity;
             }
 
-
-            Air -= 1.0f / _init_air;
+            Air -= 0.5f;
 
             if (Air < 0)
             {
                 if (!drowned)
                     Drown();
             }
+            
+            Debug.Log(Air);
 
-            Air = Math.Abs(Air);
+            float airScale = Math.Abs(Air / _init_air);
 
             _airBubble.transform.localScale = new Vector3(
-                Air,
-                Air,
-                Air
+                airScale,
+                airScale,
+                airScale
             );
         }
     }
@@ -160,7 +159,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Collected Air bubble");
         Debug.Log(Air);
-        Air += 100 * (1.0f / _init_air);
+        Air += (_init_air / 10);
         _bleepAudioSrc.PlayOneShot(BloopSound, SoundVolume);
         Debug.Log(Air);
     }

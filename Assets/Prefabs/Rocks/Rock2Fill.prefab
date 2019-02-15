@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 3422093775635844490}
   - component: {fileID: 30619391862387869}
   - component: {fileID: 8452243488872398933}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock2Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3422093775635844490
 Transform:
@@ -66,8 +66,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1488883781
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8a61c95785d514acd992983ba0b8ce5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!68 &8452243488872398933
 EdgeCollider2D:
