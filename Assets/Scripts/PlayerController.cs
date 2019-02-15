@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
+using Debug = UnityEngine.Debug;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     private Collider2D _collider2D;
     private Rigidbody2D _rigidbody2D;
+    private Animator _animator;
 
     private GameObject _airBubble;
     private float _initAirBubbleScale;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         
         _collider2D = GetComponent<CapsuleCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
         
         _airBubble = GameObject.FindGameObjectWithTag("AirBubble");
         _initAirBubbleScale = _airBubble.transform.localScale.sqrMagnitude;
@@ -69,15 +71,27 @@ public class PlayerController : MonoBehaviour
         float verticalMovementAxis = Input.GetAxis("Vertical");
         
         
-        Vector2 velocity = new Vector2(verticalMovementAxis * Speed, horizontalMovementAxis * Speed);
+        Vector2 velocity = new Vector2(horizontalMovementAxis * Speed, verticalMovementAxis * Speed);
         _rigidbody2D.velocity = velocity;
         
-        if (velocity != Vector2.zero) {
-            float angle = -Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+        if (velocity != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90.0f;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            _animator.speed = 1;
         }
+        else
+        {
+            _animator.speed = 0;
+        }
+       
 
         Air -= 1.0f / _init_air;
+
+        if (Air < 0)
+        {
+            Drown();
+        }
 
         Air = Math.Abs(Air);
 
@@ -88,5 +102,26 @@ public class PlayerController : MonoBehaviour
             Air,
             Air
         );
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Collectable"))
+        {
+            other.gameObject.SetActive(false);
+            CollectAirBubble();   
+        }
+    }
+
+    void Drown()
+    {
+        Debug.Log("Claudine has drowned");
+        _gameManager.CurrentGameState = GameManager.GameState.End;
+    }
+
+    void CollectAirBubble()
+    {
+        Debug.Log("Collected Air bubble");
+        
     }
 }
