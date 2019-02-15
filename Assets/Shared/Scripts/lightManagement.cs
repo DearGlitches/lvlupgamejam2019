@@ -11,6 +11,9 @@ public class lightManagement : MonoBehaviour
     public Camera camera;
     public Color color1;
     public Color color2;
+    public AudioSource underwater1;
+    public AudioSource underwater2;
+    public AudioSource underwater3;
 
     private float endTargetStartPosY = 0;
     public int multiplier = 8;

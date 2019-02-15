@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Settings")]
     public float Air;
     public float Speed;
+    public Light life;
 
     private float _init_air;
 
@@ -122,6 +123,9 @@ public class PlayerController : MonoBehaviour
                 airScale,
                 airScale
             );
+
+            life.color = Color.Lerp(Color.red, Color.green, airScale);
+
         }
     }
 
