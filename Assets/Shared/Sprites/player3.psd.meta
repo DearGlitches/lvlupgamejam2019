@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: e66562ad33210c442946beb34acdec1f
+=======
+<<<<<<< HEAD
+guid: 8c09c8fba204c400ea90d3889009bfb6
+=======
+guid: e66562ad33210c442946beb34acdec1f
+>>>>>>> 0d561a4... scans and boat
+>>>>>>> origin/owen
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
