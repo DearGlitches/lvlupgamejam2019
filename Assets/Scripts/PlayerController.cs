@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource _ouchAudioSrc;
     private AudioSource _dieAudioSrc;
     private AudioSource _bleepAudioSrc;
+    private AudioSource _heartAudioSrc;
 
     private bool drowned;
    
@@ -69,8 +70,10 @@ public class PlayerController : MonoBehaviour
         _ouchAudioSrc = GetComponents<AudioSource>()[0];
         _dieAudioSrc = GetComponents<AudioSource>()[1];
         _bleepAudioSrc = GetComponents<AudioSource>()[2];
+        _heartAudioSrc = GetComponents<AudioSource>()[3];
+
         
-        
+
         // Sets the rotation to point up at start
         //transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
 
@@ -112,11 +115,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (!drowned)
                     Drown();
+                    
             }
             
             Debug.Log(Air);
 
-            float airScale = Math.Abs(Air / _init_air);
+            float airScale = Mathf.Abs(Air / _init_air);
 
             _airBubble.transform.localScale = new Vector3(
                 airScale,
@@ -126,6 +130,17 @@ public class PlayerController : MonoBehaviour
 
             life.color = Color.Lerp(Color.red, Color.green, airScale);
 
+<<<<<<< HEAD
+=======
+
+            float heartVolume = Mathf.Abs(1.1f - airScale);
+            if (heartVolume > 0.75f)
+            {
+                _heartAudioSrc.volume = heartVolume;
+                _heartAudioSrc.pitch = heartVolume * 2 - 0.1f;
+            }
+
+>>>>>>> adi
         }
     }
 
@@ -154,6 +169,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Claudine has drowned");
         _dieAudioSrc.PlayOneShot(Die1Sound, SoundVolume);
         _dieAudioSrc.PlayOneShot(Die2Sound, SoundVolume);
+        _heartAudioSrc.volume = 0;
         _spriteAnimator.speed = 0;
         _gameManager.CurrentGameState = GameManager.GameState.End;
         
