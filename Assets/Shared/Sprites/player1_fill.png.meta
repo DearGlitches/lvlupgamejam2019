@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 9b5216faa7dfa49edb874d4b1842bfb5
+=======
+guid: c797bac5fe814a145a7bbed0d9778b00
+>>>>>>> 0d561a4... scans and boat
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
