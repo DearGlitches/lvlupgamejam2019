@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Collected Air bubble");
         Debug.Log(Air);
-        Air += 10 * (1.0f / _init_air);
+        Air += 100 * (1.0f / _init_air);
         Debug.Log(Air);
     }
 }
