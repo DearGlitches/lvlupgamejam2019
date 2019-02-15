@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 75a4d88545f15f0488afe647d678373b
+=======
 guid: 1a652f48753e2448dac878419228575a
+>>>>>>> origin/owen
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
