@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1415302975727638617}
   - component: {fileID: 5302468190559823941}
   - component: {fileID: 8206362218305264320}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock11Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,8 +66,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1488883781
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 05a3a85de939128d19f62ce27ad00bad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!68 &8206362218305264320
 EdgeCollider2D:

@@ -53,3 +53,15 @@ TagManager:
   - name: Background Layer
     uniqueID: 1520373219
     locked: 0
+  - name: Player
+    uniqueID: 2783273739
+    locked: 0
+  - name: Collectables
+    uniqueID: 3976287679
+    locked: 0
+  - name: Enemies
+    uniqueID: 3427265731
+    locked: 0
+  - name: Walls
+    uniqueID: 2806083515
+    locked: 0
