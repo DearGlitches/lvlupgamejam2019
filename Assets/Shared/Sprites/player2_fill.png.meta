@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 0cb4bec6133284795bf9a0e07877f756
-=======
-guid: 8f18c3f2ece7b5340a0963610730dc5b
->>>>>>> 0d561a4... scans and boat
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    2186277476908879412: ImportLogs
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -61,18 +58,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
-  platformSettings:
-  - serializedVersion: 2
-    buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   spriteSheet:
     serializedVersion: 2
     sprites: []
