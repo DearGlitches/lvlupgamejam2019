@@ -130,8 +130,6 @@ public class PlayerController : MonoBehaviour
 
             life.color = Color.Lerp(Color.red, Color.green, airScale);
 
-<<<<<<< HEAD
-=======
 
             float heartVolume = Mathf.Abs(1.1f - airScale);
             if (heartVolume > 0.75f)
@@ -140,7 +138,6 @@ public class PlayerController : MonoBehaviour
                 _heartAudioSrc.pitch = heartVolume * 2 - 0.1f;
             }
 
->>>>>>> adi
         }
     }
 
