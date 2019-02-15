@@ -25,15 +25,7 @@ public class EventManager : MonoBehaviour
                 {
                     Debug.LogError("no EventManager found");
                 }
-                else
-                {
-                    _eventManager.Init();
-                }
-            }
-
-            return _eventManager;
-        }
-    }
+                 }
 
     void Init()
     {
