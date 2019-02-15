@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PlayerController : MonoBehaviour
 
     private float _initAirBubbleScale;
     private float _previousAirBubbleScale;
+
+    [Header("Current")]
+    public float Force;
     
     [Header("Sounds")] 
     [Range(0, 1)] public float SoundVolume;
@@ -39,6 +43,8 @@ public class PlayerController : MonoBehaviour
     private AudioSource _ouchAudioSrc;
     private AudioSource _dieAudioSrc;
     private AudioSource _bleepAudioSrc;
+
+    private bool drowned;
    
     
     
@@ -58,6 +64,11 @@ public class PlayerController : MonoBehaviour
         _airBubble = _claudine.transform.GetChild(1).gameObject;
 
         _spriteAnimator = _sprite.GetComponent<Animator>();
+
+        _ouchAudioSrc = GetComponents<AudioSource>()[0];
+        _dieAudioSrc = GetComponents<AudioSource>()[1];
+        _bleepAudioSrc = GetComponents<AudioSource>()[2];
+        
         
         // Sets the rotation to point up at start
         //transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
@@ -68,45 +79,51 @@ public class PlayerController : MonoBehaviour
         
         // Sets gravity to zero so the rigidbody isn't pulled down
         Physics2D.gravity = Vector2.zero;
+
+        drowned = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontalMovementAxis = Input.GetAxis("Horizontal");
+        if (!drowned) {
+            float horizontalMovementAxis = Input.GetAxis("Horizontal");
 
-        float verticalMovementAxis = Input.GetAxis("Vertical");
-        
-        
-        Vector2 velocity = new Vector2(horizontalMovementAxis * Speed, verticalMovementAxis * Speed);
-        _rigidbody2D.velocity = velocity;
-        
-        if (velocity != Vector2.zero)
-        {
-            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90.0f;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            _spriteAnimator.speed = 1;
+            float verticalMovementAxis = Input.GetAxis("Vertical");
+
+
+            Vector2 velocity = new Vector2(horizontalMovementAxis * Speed, verticalMovementAxis * Speed);
+            _rigidbody2D.velocity = velocity;
+
+            if (velocity != Vector2.zero)
+            {
+                float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90.0f;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                _spriteAnimator.speed = 1;
+            }
+            else
+            {
+                _spriteAnimator.speed = 0;
+                transform.rotation = Quaternion.identity;
+            }
+
+
+            Air -= 1.0f / _init_air;
+
+            if (Air < 0)
+            {
+                if (!drowned)
+                    Drown();
+            }
+
+            Air = Math.Abs(Air);
+
+            _airBubble.transform.localScale = new Vector3(
+                Air,
+                Air,
+                Air
+            );
         }
-        else
-        {
-            _spriteAnimator.speed = 0;
-        }
-       
-
-        Air -= 1.0f / _init_air;
-
-        if (Air < 0)
-        {
-            Drown();
-        }
-
-        Air = Math.Abs(Air);
-
-        _airBubble.transform.localScale = new Vector3(
-            Air,
-            Air,
-            Air
-        );
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -116,19 +133,62 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             CollectAirBubble();
         }
+
+        if (other.gameObject.CompareTag("Urchin"))
+        {
+            TouchUrchin();
+        }
+
+        if (other.gameObject.CompareTag("Current"))
+        {
+            Current();
+        }
     }
 
     void Drown()
     {
+        drowned = true;
         Debug.Log("Claudine has drowned");
+        _dieAudioSrc.PlayOneShot(Die1Sound, SoundVolume);
+        _dieAudioSrc.PlayOneShot(Die2Sound, SoundVolume);
+        _spriteAnimator.speed = 0;
         _gameManager.CurrentGameState = GameManager.GameState.End;
+        
     }
 
     void CollectAirBubble()
     {
         Debug.Log("Collected Air bubble");
         Debug.Log(Air);
-        Air += 10 * (1.0f / _init_air);
+        Air += 100 * (1.0f / _init_air);
+        _bleepAudioSrc.PlayOneShot(BloopSound, SoundVolume);
         Debug.Log(Air);
     }
+
+    void TouchUrchin()
+    {
+        Debug.Log("Touched an Urchin");
+        Debug.Log(Air);
+        
+        if (Random.Range(0, 10) > 4)
+        {
+            _ouchAudioSrc.PlayOneShot(Ouch1Sound, SoundVolume);
+        }
+        else
+        {
+            _ouchAudioSrc.PlayOneShot(Ouch2Sound, SoundVolume);
+        }
+
+        Air -= 100 * (1.0f / _init_air);
+        Debug.Log(Air);
+    }
+
+    void Current()
+    {
+        Debug.Log("Applying current");
+        // NOT GREAT
+        _rigidbody2D.AddForce(Vector2.left * Force);
+    }
+    
+    
 }
