@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("AirBubble"))
         {
             other.gameObject.SetActive(false);
-            CollectAirBubble();   
+            CollectAirBubble();
         }
     }
 
