@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
 
     private float _initAirBubbleScale;
     private float _previousAirBubbleScale;
+
+    [Header("Current")]
+    public float Force;
     
     [Header("Sounds")] 
     [Range(0, 1)] public float SoundVolume;
@@ -116,6 +119,16 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             CollectAirBubble();
         }
+
+        if (other.gameObject.CompareTag("Urchin"))
+        {
+            TouchUrchin();
+        }
+
+        if (other.gameObject.CompareTag("Current"))
+        {
+            Current();
+        }
     }
 
     void Drown()
@@ -131,4 +144,21 @@ public class PlayerController : MonoBehaviour
         Air += 100 * (1.0f / _init_air);
         Debug.Log(Air);
     }
+
+    void TouchUrchin()
+    {
+        Debug.Log("Touched an Urchin");
+        Debug.Log(Air);
+        Air -= 100 * (1.0f / _init_air);
+        Debug.Log(Air);
+    }
+
+    void Current()
+    {
+        Debug.Log("Applying current");
+        // NOT GREAT
+        _rigidbody2D.AddRelativeForce(Vector2.left * Force);
+    }
+    
+    
 }

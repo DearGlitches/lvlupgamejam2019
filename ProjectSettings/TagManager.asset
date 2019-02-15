@@ -8,6 +8,8 @@ TagManager:
   - AirBubble
   - Collectable
   - Sprite
+  - Urchin
+  - Current
   layers:
   - Default
   - TransparentFX
