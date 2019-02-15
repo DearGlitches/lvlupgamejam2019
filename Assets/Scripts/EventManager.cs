@@ -28,6 +28,7 @@ public class EventManager : MonoBehaviour
                 else
                 {
                     _eventManager.Init();
+                    Debug.Log("EventManager initiated");
                 }
             }
 
@@ -74,6 +75,7 @@ public class EventManager : MonoBehaviour
 
     public static void TriggerEvent(string eventName, int eventId)
     {
+        Debug.Log("in TriggerEvent (eventManager)");
         Event thisEvent = null;
         if (instance.eventDictionnary.TryGetValue(eventName, out thisEvent))
         {

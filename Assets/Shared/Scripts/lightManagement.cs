@@ -8,9 +8,12 @@ public class lightManagement : MonoBehaviour
     public Transform endTarget;
     public Transform player;
     public Light lightTarget;
+<<<<<<< HEAD
     public Camera camera;
     public Color color1;
     public Color color2;
+=======
+>>>>>>> origin/lvldesign2
 
     private float endTargetStartPosY = 0;
     public int multiplier = 8;
@@ -25,6 +28,7 @@ public class lightManagement : MonoBehaviour
     void Update()
     {
         if (player.transform.position.y != 0) {
+<<<<<<< HEAD
             float delta = (endTarget.transform.position.y - player.transform.position.y) / endTargetStartPosY * multiplier / 10;
             lightTarget.intensity = delta*10;
             camera.backgroundColor = Color.Lerp(color1, color2, delta);
@@ -32,5 +36,11 @@ public class lightManagement : MonoBehaviour
         
 
 
+=======
+            lightTarget.intensity = (endTarget.transform.position.y - player.transform.position.y) / endTargetStartPosY * multiplier;
+        }
+        
+
+>>>>>>> origin/lvldesign2
     }
 }
