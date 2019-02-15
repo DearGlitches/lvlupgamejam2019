@@ -15,11 +15,16 @@ public class PlayerController : MonoBehaviour
 
     private float _init_air;
 
+    private GameObject _claudine;
+
     private Collider2D _collider2D;
     private Rigidbody2D _rigidbody2D;
-    private Animator _animator;
 
+    private GameObject _sprite;
     private GameObject _airBubble;
+    
+    private Animator _spriteAnimator;
+
     private float _initAirBubbleScale;
     private float _previousAirBubbleScale;
     
@@ -43,14 +48,16 @@ public class PlayerController : MonoBehaviour
         GameObject gameManagerObject = GameObject.Find ("GameManager");
         if (gameManagerObject != null)
             _gameManager = gameManagerObject.GetComponent<GameManager> ();
+
+        _claudine = this.gameObject;
         
         _collider2D = GetComponent<CapsuleCollider2D>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
-        
-        _airBubble = GameObject.FindGameObjectWithTag("AirBubble");
-        _initAirBubbleScale = _airBubble.transform.localScale.sqrMagnitude;
-        _previousAirBubbleScale = _initAirBubbleScale;
+
+        _sprite = _claudine.transform.GetChild(0).gameObject;
+        _airBubble = _claudine.transform.GetChild(1).gameObject;
+
+        _spriteAnimator = _sprite.GetComponent<Animator>();
         
         // Sets the rotation to point up at start
         //transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
@@ -78,11 +85,11 @@ public class PlayerController : MonoBehaviour
         {
             float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg - 90.0f;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            _animator.speed = 1;
+            _spriteAnimator.speed = 1;
         }
         else
         {
-            _animator.speed = 0;
+            _spriteAnimator.speed = 0;
         }
        
 
@@ -95,8 +102,6 @@ public class PlayerController : MonoBehaviour
 
         Air = Math.Abs(Air);
 
-        float airBubbleScale = Air;
-
         _airBubble.transform.localScale = new Vector3(
             Air,
             Air,
@@ -106,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Collectable"))
+        if (other.gameObject.CompareTag("AirBubble"))
         {
             other.gameObject.SetActive(false);
             CollectAirBubble();   
