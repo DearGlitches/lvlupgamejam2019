@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = System.Random;
@@ -8,14 +6,18 @@ using Random = System.Random;
 public class PearlController : MonoBehaviour
 {
     public int eventId = -2;
-    private float _rayRadius = 0.3f;
+    private float _rayRadius = 1f;
 
-    public Boolean hasCollided = false;
+    public Boolean hasCollided;
 
 
-    public Boolean destroyRandomRocks = false;
+    public Boolean destroyRandomRocks;
     public int maxEventId = 1;
     private Random _random;
+
+    [Header("Sprites")] 
+    public Sprite spriteBeforeTrigger;
+    public Sprite spriteAftertTrigger;
     
     [Header("Sound")]
      private AudioSource _audioSrc;
@@ -26,6 +28,7 @@ public class PearlController : MonoBehaviour
     {
         _audioSrc = GetComponents<AudioSource>()[0];
         _random = new Random();
+        GetComponent<SpriteRenderer>().sprite = spriteBeforeTrigger;
     }
 
 
@@ -33,8 +36,10 @@ public class PearlController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D hit = Physics2D.CircleCast(gameObject.transform.position, _rayRadius, Vector2.up);
+        RaycastHit2D hit = Physics2D.CircleCast(gameObject.transform.position, _rayRadius, Vector2.zero);
+        Debug.DrawRay(gameObject.transform.position, Vector3.zero);
         if (!hasCollided && hit.collider != null && hit.collider.CompareTag("Player"))
+        {
 
             if (!destroyRandomRocks)
             {
@@ -45,6 +50,7 @@ public class PearlController : MonoBehaviour
                 EventManager.TriggerEvent("destroyRock", _random.Next(maxEventId));
             }
             _audioSrc.PlayOneShot(triggerSound, volume);
+            GetComponent<SpriteRenderer>().sprite = spriteAftertTrigger;
             hasCollided = true;
         }
     }
