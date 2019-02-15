@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.identity;
             }
 
-            Air -= 0.2f;
+            Air -= 0.5f;
 
             if (Air < 0)
             {
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Collected Air bubble");
         Debug.Log(Air);
-        Air += 100 * (1.0f / _init_air);
+        Air += (_init_air / 10);
         _bleepAudioSrc.PlayOneShot(BloopSound, SoundVolume);
         Debug.Log(Air);
     }
