@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 226498797872288637}
   - component: {fileID: 8587553672597702895}
   - component: {fileID: 2751937475037206477}
+  - component: {fileID: 6938884355272732013}
   m_Layer: 0
   m_Name: IntelligentRock5Fill
   m_TagString: Untagged
@@ -49,7 +50,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0b187ed0805f8764e9e05476c04284d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,3 +105,16 @@ EdgeCollider2D:
   - {x: 3.852991, y: 4.7970247}
   - {x: 3.804491, y: -4.087143}
   - {x: -3.3760452, y: -5.2346644}
+--- !u!114 &6938884355272732013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7291017041531345664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e64ea1bceb72a8a79d302eeffb92f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventId: -1

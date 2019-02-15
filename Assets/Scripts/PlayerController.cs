@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.Log(other.gameObject.tag);
         if (other.gameObject.CompareTag("AirBubble"))
         {
             other.gameObject.SetActive(false);
@@ -141,6 +142,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Current"))
         {
             Current();
+        }
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            _gameManager.endLevel();
         }
     }
 

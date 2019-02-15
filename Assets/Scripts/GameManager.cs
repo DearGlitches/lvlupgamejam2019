@@ -127,4 +127,13 @@ public class GameManager : MonoBehaviour
 				break;
 		}
 	}
+
+	public void endLevel()
+	{
+		if (_levelState == LevelState.Play)
+		{
+			_levelState = LevelState.End;
+			Debug.Log("end level");
+		}
+	}
 }
