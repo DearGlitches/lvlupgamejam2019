@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -27,8 +28,8 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Player Settings")]
-    public int PlayerAir = 2;
-    public float PlayerSpeed = 2f;
+    public int PlayerAir = 1000;
+    public float PlayerSpeed = 6f;
 
     [Header("Game Settings")]
     public Level[] Levels = new Level[0];
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
     public int CurrentLevel;
     public DevelopmentState CurrentDevState = DevelopmentState.Development;
     public GameState CurrentGameState = GameState.Game;
-
+    
     private static GameManager _gameManager;
     public LevelState CurrentLevelState = LevelState.Ready;
     private Vector3 _playerStartPosition;
@@ -48,6 +49,20 @@ public class GameManager : MonoBehaviour
     private GameObject _uiPanel;
     private GameObject _diePanel;
     private GameObject _player;
+    
+    
+    public Image fadeOutUIImage;
+    public float FadeLength = 1f; 
+    public enum FadeDirection
+    {
+	    In, //Alpha = 1
+	    Out // Alpha = 0
+    }
+    
+    void OnEnable()
+    {
+	    StartCoroutine(Fade(FadeDirection.Out));
+    }
     
     // Use this for initialization
 	void Awake () {
@@ -73,9 +88,23 @@ public class GameManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log("CurrentLevel: " + CurrentLevel);
+		Debug.Log("CurrentLevelState: " + CurrentLevelState);
+		Debug.Log("CurrentGameState: " + CurrentGameState);
 		switch (CurrentGameState) {
 			case GameState.Start:
+				if (Input.GetAxis("Vertical") < 0) {
+					CurrentGameState = GameState.Game;
+					_initLevel = true;
+					Debug.Log("Load Scene: " + CurrentLevel);
+					StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
+				}
+				break;
 			case GameState.End:
+				SceneManager.LoadScene("End");
+				if (Input.GetAxis("Vertical") > 0)
+					CurrentGameState = GameState.Start;
+				break;
 			case GameState.Game:
 				UpdateLevel ();
 				break;
@@ -86,23 +115,13 @@ public class GameManager : MonoBehaviour
 	private void InitLevel () {
 		if (CurrentGameState != GameState.Game)
 			return;
-		_player = GameObject.Find ("Claudine");
-		if (_player != null)
-		    _playerStartPosition = _player.transform.position;
-		else
-			Debug.LogError ("Object with 'Claudine' name not found");
 		
 		InitLevelParameters(); 
-		
 	}
 
 	private void InitLevelParameters()
 	{
 		CurrentLevelState = LevelState.Ready;
-		if (_player != null) {
-			_player.transform.position = _playerStartPosition;
-		    _player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-		}
 	}
 	
 	public bool CanPlay(){
@@ -111,6 +130,10 @@ public class GameManager : MonoBehaviour
 
 	private void UpdateLevel()
 	{
+		
+		Debug.Log("CurrentLevel: " + CurrentLevel);
+		Debug.Log("CurrentLevelState: " + CurrentLevelState);
+		Debug.Log("CurrentGameState: " + CurrentGameState);
 		if (_initLevel)
 		{
 			InitLevel();
@@ -130,18 +153,49 @@ public class GameManager : MonoBehaviour
 			case LevelState.End:
 				CurrentLevelState = LevelState.Ready;
 				_initLevel = true;
+				if (CurrentLevel < Levels.Length - 1)
+					CurrentLevel++;
 				break;
             case LevelState.Dead:
-                StartCoroutine(WaitForSceneLoad());
+	            CurrentLevelState = LevelState.Ready;
+	            _initLevel = true;
+	            Debug.Log("Reload Current Scene");
+                StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
                 break;
 
 		}
 	}
-
-    private IEnumerator WaitForSceneLoad()
+    
+    private IEnumerator Fade(FadeDirection fadeDirection) 
     {
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
+	    float alpha = (fadeDirection == FadeDirection.Out)? 1 : 0;
+	    float fadeEndValue = (fadeDirection == FadeDirection.Out)? 0 : 1;
+	    if (fadeDirection == FadeDirection.Out) {
+		    while (alpha >= fadeEndValue)
+		    {
+			    SetColorImage (ref alpha, fadeDirection);
+			    yield return null;
+		    }
+		    fadeOutUIImage.enabled = false; 
+	    } else {
+		    fadeOutUIImage.enabled = true; 
+		    while (alpha <= fadeEndValue)
+		    {
+			    SetColorImage (ref alpha, fadeDirection);
+			    yield return null;
+		    }
+	    }
+    }
+    
+    public IEnumerator FadeAndLoadScene(FadeDirection fadeDirection, string sceneToLoad) 
+    {
+	    yield return Fade(fadeDirection);
+	    if (fadeDirection == FadeDirection.In && !sceneToLoad.Equals("NO_CHANGE"))
+			SceneManager.LoadScene(sceneToLoad);
+    }
+    private void SetColorImage(ref float alpha, FadeDirection fadeDirection)
+    {
+	    fadeOutUIImage.color = new Color (fadeOutUIImage.color.r,fadeOutUIImage.color.g, fadeOutUIImage.color.b, alpha);
+	    alpha += Time.deltaTime * (1f/FadeLength) * ((fadeDirection == FadeDirection.Out)? -1 : 1) ;
     }
 }
