@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 5801431038526061327}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 1640028091736837267}
   - {fileID: 7735751421760297344}
@@ -676,6 +676,7 @@ MonoBehaviour:
   underwater1: {fileID: 5237947523150791811}
   underwater2: {fileID: 7578405475820465756}
   underwater3: {fileID: 122844967838518321}
+  rockMaterial: {fileID: 2100000, guid: 0b187ed0805f8764e9e05476c04284d3, type: 2}
   multiplier: 10
 --- !u!82 &5237947523150791811
 AudioSource:
@@ -1021,7 +1022,7 @@ Light:
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 12100000, guid: bc8d761cacc3740fbab1c96eb12fe12f, type: 2}
+  m_Flare: {fileID: 12100000, guid: f3cd23d6d3e3d490cb471c69069c97a1, type: 2}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
