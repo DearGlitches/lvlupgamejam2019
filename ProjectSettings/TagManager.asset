@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - AirBubble
+  - Collectable
+  - Sprite
+  - Urchin
+  - Current
   layers:
   - Default
   - TransparentFX
@@ -17,7 +22,7 @@ TagManager:
   - Lighting
   - Ground
   - Postprocessing
-  - 
+  - Background Layer
   - 
   - 
   - 
@@ -44,4 +49,19 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background Layer
+    uniqueID: 1520373219
+    locked: 0
+  - name: Player
+    uniqueID: 2783273739
+    locked: 0
+  - name: Collectables
+    uniqueID: 3976287679
+    locked: 0
+  - name: Enemies
+    uniqueID: 3427265731
+    locked: 0
+  - name: Walls
+    uniqueID: 2806083515
     locked: 0

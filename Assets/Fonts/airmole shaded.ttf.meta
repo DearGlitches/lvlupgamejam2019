@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: f0eb686d6763b4909b8532dd24870105
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Airmole
+  fontNames:
+  - Airmole
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2c5a3745928c35145bb776fea95521f1, type: 3}
+  - {fileID: 12800000, guid: c49730a67ebe0f4e6930cb6b3e3fada3, type: 3}
+  - {fileID: 12800000, guid: 982c583b90aad23e582ce042eac7f07f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
