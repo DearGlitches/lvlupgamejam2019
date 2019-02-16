@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.identity;
             }
 
-            Air -= 0.5f;
+            Air -= 16.7f * Time.deltaTime;
 
             if (Air < 0)
             {
