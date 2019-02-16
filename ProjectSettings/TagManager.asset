@@ -10,6 +10,7 @@ TagManager:
   - Sprite
   - Urchin
   - Current
+  - gameEnd
   layers:
   - Default
   - TransparentFX

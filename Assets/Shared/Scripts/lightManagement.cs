@@ -14,6 +14,7 @@ public class lightManagement : MonoBehaviour
     public AudioSource underwater1;
     public AudioSource underwater2;
     public AudioSource underwater3;
+    public Material rockMaterial;
 
     private float endTargetStartPosY = 0;
     public int multiplier = 8;
@@ -82,7 +83,8 @@ public class lightManagement : MonoBehaviour
                 underwater2.volume = 0.0f;
                 underwater3.volume = 1f;
             }
-          
+
+            rockMaterial.SetFloat("_OcclusionStrength", delta);
 
             camera.backgroundColor = Color.Lerp(color1, color2, delta);
         }

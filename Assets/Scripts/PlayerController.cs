@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log(Air);
+                //Debug.Log(Air);
 
                 float airScale = Mathf.Abs(Air / _init_air);
 
@@ -134,13 +134,15 @@ public class PlayerController : MonoBehaviour
 
 
                 float heartVolume = Mathf.Abs(1.1f - airScale);
-                if (heartVolume > 0.75f)
-                {
-                    _heartAudioSrc.volume = heartVolume;
-                    _heartAudioSrc.pitch = heartVolume * 2 - 0.1f;
+                if (Air < 1000) {
+                    if (heartVolume > 0.75f)
+                    {
+                        _heartAudioSrc.volume = heartVolume;
+                        _heartAudioSrc.pitch = heartVolume * 2 - 0.1f;
 
+                    }
+                    _airBubbleLight.intensity = Mathf.Exp(heartVolume + 2.0f) - 7f;
                 }
-                _airBubbleLight.intensity = Mathf.Exp(heartVolume + 2.0f) - 7f;
             }
             
            
@@ -164,6 +166,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Current"))
         {
             Current();
+        }
+
+        if (other.gameObject.CompareTag("gameEnd"))
+        {
+            _gameManager.CurrentLevelState = GameManager.LevelState.End;
+            other.gameObject.SetActive(false);
+            Debug.Log("LevelEnd");
         }
     }
 
@@ -204,8 +213,8 @@ public class PlayerController : MonoBehaviour
             _ouchAudioSrc.PlayOneShot(Ouch2Sound, SoundVolume);
         }
 
-        Air -= 100 * (1.0f / _init_air);
-        Debug.Log(Air);
+        Air -= 1000 * 100 * (1.0f / _init_air);
+        //Debug.Log(Air);
     }
 
     void Current()
@@ -214,6 +223,5 @@ public class PlayerController : MonoBehaviour
         // NOT GREAT
         _rigidbody2D.AddForce(Vector2.left * Force);
     }
-    
-    
+
 }
