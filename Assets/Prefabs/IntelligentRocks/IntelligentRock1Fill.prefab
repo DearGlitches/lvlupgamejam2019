@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1878389347107022215}
   - component: {fileID: 4253689963716760957}
   - component: {fileID: 3959341968753848015}
+  - component: {fileID: 5340452320901958041}
   m_Layer: 0
   m_Name: IntelligentRock1Fill
   m_TagString: Untagged
@@ -49,7 +50,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0b187ed0805f8764e9e05476c04284d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,3 +109,16 @@ EdgeCollider2D:
   - {x: -3.4592304, y: -0.39022022}
   - {x: -1.9684554, y: 3.00541}
   - {x: 0.57147515, y: 3.41359}
+--- !u!114 &5340452320901958041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7357937111965909353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e64ea1bceb72a8a79d302eeffb92f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventId: -1

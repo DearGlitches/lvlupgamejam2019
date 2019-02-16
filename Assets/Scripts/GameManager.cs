@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +22,8 @@ public class GameManager : MonoBehaviour
         Start,
         Ready,
         End,
-        Play
+        Play,
+        Dead
     }
 
     [Header("Player Settings")]
@@ -35,10 +38,11 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState = GameState.Game;
 
     private static GameManager _gameManager;
-    private LevelState _levelState;
+    public LevelState CurrentLevelState = LevelState.Ready;
     private Vector3 _playerStartPosition;
     private bool _finishLevel;
     private bool _initLevel;
+    private bool _resetLevel;
 
     private GameObject _startPanel;
     private GameObject _uiPanel;
@@ -62,6 +66,8 @@ public class GameManager : MonoBehaviour
 			CurrentLevel = 0;
 			_initLevel = true;
 		}
+
+        _resetLevel = false;
 	}
 
 	
@@ -82,7 +88,7 @@ public class GameManager : MonoBehaviour
 			return;
 		_player = GameObject.Find ("Claudine");
 		if (_player != null)
-			_playerStartPosition = _player.transform.position;
+		    _playerStartPosition = _player.transform.position;
 		else
 			Debug.LogError ("Object with 'Claudine' name not found");
 		
@@ -92,15 +98,15 @@ public class GameManager : MonoBehaviour
 
 	private void InitLevelParameters()
 	{
-		_levelState = LevelState.Ready;
+		CurrentLevelState = LevelState.Ready;
 		if (_player != null) {
 			_player.transform.position = _playerStartPosition;
-		    _player.GetComponent<Rigidbody2D> ().velocity = Vector3.zero;
+		    _player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		}
 	}
 	
 	public bool CanPlay(){
-		return CurrentGameState == GameState.Game && _levelState == LevelState.Play;
+		return CurrentGameState == GameState.Game && CurrentLevelState == LevelState.Play;
 	}
 
 	private void UpdateLevel()
@@ -111,20 +117,31 @@ public class GameManager : MonoBehaviour
 			_initLevel = false;
 		}
 
-		switch (_levelState)
+		switch (CurrentLevelState)
 		{
 			case LevelState.Ready:
-				_levelState = LevelState.Start;
+				CurrentLevelState = LevelState.Start;
 				break;
 			case LevelState.Start:
-				_levelState = LevelState.Play;
+				CurrentLevelState = LevelState.Play;
 				break;
 			case LevelState.Play:
 				break;
 			case LevelState.End:
-				_levelState = LevelState.Ready;
+				CurrentLevelState = LevelState.Ready;
 				_initLevel = true;
 				break;
+            case LevelState.Dead:
+                StartCoroutine(WaitForSceneLoad());
+                break;
+
 		}
 	}
+
+    private IEnumerator WaitForSceneLoad()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+    }
 }

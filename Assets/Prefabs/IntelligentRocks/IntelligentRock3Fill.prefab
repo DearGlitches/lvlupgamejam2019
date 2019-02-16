@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5363603026605390441}
   - component: {fileID: 2819648814185767938}
   - component: {fileID: 8682762573598619290}
+  - component: {fileID: 6703130094311075373}
   m_Layer: 0
   m_Name: IntelligentRock3Fill
   m_TagString: Untagged
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0b187ed0805f8764e9e05476c04284d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,3 +114,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6703130094311075373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207957734585869811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e64ea1bceb72a8a79d302eeffb92f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventId: -1

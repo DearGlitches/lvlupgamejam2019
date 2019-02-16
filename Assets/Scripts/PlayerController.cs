@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject _sprite;
     private GameObject _airBubble;
-    
+    private Light _airBubbleLight;
+
     private Animator _spriteAnimator;
 
     private float _initAirBubbleScale;
@@ -72,7 +73,7 @@ public class PlayerController : MonoBehaviour
         _bleepAudioSrc = GetComponents<AudioSource>()[2];
         _heartAudioSrc = GetComponents<AudioSource>()[3];
 
-        
+        _airBubbleLight = _airBubble.transform.GetComponentInChildren<Light>();
 
         // Sets the rotation to point up at start
         //transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
@@ -115,28 +116,34 @@ public class PlayerController : MonoBehaviour
             {
                 if (!drowned)
                     Drown();
-                    
+
+            }
+            else
+            {
+                Debug.Log(Air);
+
+                float airScale = Mathf.Abs(Air / _init_air);
+
+                _airBubble.transform.localScale = new Vector3(
+                    airScale,
+                    airScale,
+                    airScale
+                );
+
+                life.color = Color.Lerp(Color.red, Color.green, airScale);
+
+
+                float heartVolume = Mathf.Abs(1.1f - airScale);
+                if (heartVolume > 0.75f)
+                {
+                    _heartAudioSrc.volume = heartVolume;
+                    _heartAudioSrc.pitch = heartVolume * 2 - 0.1f;
+
+                }
+                _airBubbleLight.intensity = Mathf.Exp(heartVolume + 2.0f) - 7f;
             }
             
-            Debug.Log(Air);
-
-            float airScale = Mathf.Abs(Air / _init_air);
-
-            _airBubble.transform.localScale = new Vector3(
-                airScale,
-                airScale,
-                airScale
-            );
-
-            life.color = Color.Lerp(Color.red, Color.green, airScale);
-
-
-            float heartVolume = Mathf.Abs(1.1f - airScale);
-            if (heartVolume > 0.75f)
-            {
-                _heartAudioSrc.volume = heartVolume;
-                _heartAudioSrc.pitch = heartVolume * 2 - 0.1f;
-            }
+           
 
         }
     }
@@ -167,9 +174,11 @@ public class PlayerController : MonoBehaviour
         _dieAudioSrc.PlayOneShot(Die1Sound, SoundVolume);
         _dieAudioSrc.PlayOneShot(Die2Sound, SoundVolume);
         _heartAudioSrc.volume = 0;
+        _airBubbleLight.intensity = 0;
+        _heartAudioSrc.Stop();
         _spriteAnimator.speed = 0;
-        _gameManager.CurrentGameState = GameManager.GameState.End;
-        
+
+        _gameManager.CurrentLevelState = GameManager.LevelState.Dead;
     }
 
     void CollectAirBubble()
