@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 741326465908155128}
   - component: {fileID: 741326465908155135}
   - component: {fileID: 741326465908155134}
-  - component: {fileID: 741326465908155132}
   m_Layer: 0
   m_Name: FlowForce
   m_TagString: Untagged
@@ -4741,15 +4740,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &741326465908155132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 741326465908155130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2a55119cba8a5e2cac61bc97dfbf064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
