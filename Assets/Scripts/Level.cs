@@ -2,8 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Level : MonoBehaviour
+public class Level
 {
     public String Name;
-    public float LevelDifficulty;
 }

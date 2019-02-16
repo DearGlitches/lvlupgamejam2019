@@ -48,8 +48,6 @@ public class PlayerController : MonoBehaviour
     private AudioSource _heartAudioSrc;
 
     private bool drowned;
-   
-    
     
     // Start is called before the first frame update
     void Start()
@@ -57,6 +55,8 @@ public class PlayerController : MonoBehaviour
         GameObject gameManagerObject = GameObject.Find ("GameManager");
         if (gameManagerObject != null)
             _gameManager = gameManagerObject.GetComponent<GameManager> ();
+        else
+            Debug.LogError("No game manager found");
 
         _claudine = this.gameObject;
         
@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour
         Physics2D.gravity = Vector2.zero;
 
         drowned = false;
+
+        StartCoroutine(_gameManager.FadeAndLoadScene(GameManager.FadeDirection.Out, "NO_CHANGE"));
     }
 
     // Update is called once per frame
@@ -114,13 +116,11 @@ public class PlayerController : MonoBehaviour
 
             if (Air < 0)
             {
-                if (!drowned)
-                    Drown();
-
+                Drown();
             }
             else
             {
-                Debug.Log(Air);
+                //Debug.Log(Air);
 
                 float airScale = Mathf.Abs(Air / _init_air);
 
@@ -142,8 +142,6 @@ public class PlayerController : MonoBehaviour
                 }
                 _airBubbleLight.intensity = Mathf.Exp(heartVolume + 2.0f) - 7f;
             }
-            
-           
 
         }
     }
