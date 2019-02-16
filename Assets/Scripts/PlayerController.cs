@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
         drowned = false;
 
         StartCoroutine(_gameManager.FadeAndLoadScene(GameManager.FadeDirection.Out, "NO_CHANGE"));
+        _gameManager._introMusic.volume = 0;
+        _gameManager._startedCoroutine = false;
     }
 
     // Update is called once per frame
@@ -168,9 +170,10 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("gameEnd"))
         {
+            
+            Debug.Log("LevelEnd");
             _gameManager.CurrentLevelState = GameManager.LevelState.End;
             other.gameObject.SetActive(false);
-            Debug.Log("LevelEnd");
         }
     }
 

@@ -52,17 +52,21 @@ public class GameManager : MonoBehaviour
     
     
     public Image fadeOutUIImage;
-    public float FadeLength = 1f; 
+    public float FadeLength =1f;
+
+    [HideInInspector]
+    public AudioSource _introMusic;
+    [HideInInspector]
+    public AudioSource _endMusic;
+
+    [HideInInspector] public bool _startedCoroutine = false;
+    private bool _onLevelEnd = false;
     public enum FadeDirection
     {
 	    In, //Alpha = 1
 	    Out // Alpha = 0
     }
     
-    void OnEnable()
-    {
-	    StartCoroutine(Fade(FadeDirection.Out));
-    }
     
     // Use this for initialization
 	void Awake () {
@@ -85,25 +89,51 @@ public class GameManager : MonoBehaviour
         _resetLevel = false;
 	}
 
+	void Start()
+	{
+		_introMusic = GetComponents<AudioSource>()[0];
+		_endMusic = GetComponents<AudioSource>()[1];
+
+		_introMusic.volume = 0;
+		_endMusic.volume = 0;
+		
+		StartCoroutine(FadeAndLoadScene(GameManager.FadeDirection.Out, "NO_CHANGE"));
+	}
+
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log("CurrentLevel: " + CurrentLevel);
-		Debug.Log("CurrentLevelState: " + CurrentLevelState);
-		Debug.Log("CurrentGameState: " + CurrentGameState);
 		switch (CurrentGameState) {
 			case GameState.Start:
+				_introMusic.volume = 1f;
 				if (Input.GetAxis("Vertical") < 0) {
 					CurrentGameState = GameState.Game;
 					_initLevel = true;
 					Debug.Log("Load Scene: " + CurrentLevel);
-					StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
+					if (!_startedCoroutine)
+					{
+						_startedCoroutine = true;
+						StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
+					}
+					
 				}
 				break;
 			case GameState.End:
-				SceneManager.LoadScene("End");
+				if (!_startedCoroutine && !_onLevelEnd)
+				{
+					_startedCoroutine = true;
+					_onLevelEnd = true;
+					StartCoroutine(FadeAndLoadScene(FadeDirection.In, "End"));
+				}
 				if (Input.GetAxis("Vertical") > 0)
+				{
 					CurrentGameState = GameState.Start;
+					if (!_startedCoroutine)
+					{
+						_startedCoroutine = true;
+						StartCoroutine(FadeAndLoadScene(FadeDirection.In, "Intro"));
+					}
+				}
 				break;
 			case GameState.Game:
 				UpdateLevel ();
@@ -130,10 +160,6 @@ public class GameManager : MonoBehaviour
 
 	private void UpdateLevel()
 	{
-		
-		Debug.Log("CurrentLevel: " + CurrentLevel);
-		Debug.Log("CurrentLevelState: " + CurrentLevelState);
-		Debug.Log("CurrentGameState: " + CurrentGameState);
 		if (_initLevel)
 		{
 			InitLevel();
@@ -154,13 +180,28 @@ public class GameManager : MonoBehaviour
 				CurrentLevelState = LevelState.Ready;
 				_initLevel = true;
 				if (CurrentLevel < Levels.Length - 1)
+				{
+					Debug.Log("Current Level: " + CurrentLevel);
+					Debug.Log("Levels Length: " + Levels.Length);
+					Debug.Log("Change to next level");
 					CurrentLevel++;
+				}
+				else
+				{
+					Debug.Log("Change to end");
+					CurrentLevelState = LevelState.Ready;
+					CurrentGameState = GameState.End;
+				}
 				break;
             case LevelState.Dead:
 	            CurrentLevelState = LevelState.Ready;
 	            _initLevel = true;
 	            Debug.Log("Reload Current Scene");
-                StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
+	            if (!_startedCoroutine)
+	            {
+		            _startedCoroutine = true;
+		            StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
+	            }
                 break;
 
 		}
