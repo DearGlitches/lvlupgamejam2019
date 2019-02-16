@@ -185,7 +185,12 @@ public class GameManager : MonoBehaviour
 					Debug.Log("Levels Length: " + Levels.Length);
 					Debug.Log("Change to next level");
 					CurrentLevel++;
-				}
+                    if (!_startedCoroutine)
+                    {
+                        _startedCoroutine = true;
+                        StartCoroutine(FadeAndLoadScene(FadeDirection.In, Levels[CurrentLevel].Name));
+                    }
+                }
 				else
 				{
 					Debug.Log("Change to end");
